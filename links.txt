@@ -1,9 +1,35 @@
 https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1 - Covid Günlük Vaka(Sayı)
+Source: https://www.turkiyestopscovid.com/status-in-turkiye 
+XPath: //*[@id="case-number"]
+
 https://api.thingspeak.com/apps/thinghttp/send_request?api_key=378Z1P6B9QUCQIJF - Covid Günlük Test(Sayı)
+Source: https://www.turkiyestopscovid.com/status-in-turkiye
+XPath: //*[@id="number-of-tests"]
+
 https://api.thingspeak.com/apps/thinghttp/send_request?api_key=R2550VKLU915XLZ6 - Covid Günlük İyileşen(Sayı)
+Source: https://www.turkiyestopscovid.com/status-in-turkiye
+XPath: //*[@id="number-of-recoveries"]
+
 https://api.thingspeak.com/apps/thinghttp/send_request?api_key=JN6N1R2OSFU5LGO7 - Covid Günlük Ölüm(Sayı)
+Source: https://www.turkiyestopscovid.com/status-in-turkiye
+XPath: //*[@id="number-of-deaths"]
+
 https://api.thingspeak.com/apps/thinghttp/send_request?api_key=Y3WBZ4RON7RIM8I8 - Covid Toplam Vaka(Sayı)
+Source: https://weather.com/coronavirus/l/Antalya+Antalya+Turkey?canonicalCityId=1e8cb7c6f5e7c459f4b12cdd17a1170e6fc714c9947ad04065fbe17aad3fc3b0
+XPath: //*[@id="WxuCovidCasesOverview-main-f07a87f7-782c-4569-8e82-cd42ca99a107"]/section/div[1]/div/div[1]/span[2]
+
 https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE - Covid Toplam Ölüm(Sayı)
+Source: https://weather.com/coronavirus/l/Antalya+Antalya+Turkey?canonicalCityId=1e8cb7c6f5e7c459f4b12cdd17a1170e6fc714c9947ad04065fbe17aad3fc3b0
+XPath: //*[@id="WxuCovidCasesOverview-main-f07a87f7-782c-4569-8e82-cd42ca99a107"]/section/div[1]/div/div[2]/span[2]
+
 https://api.thingspeak.com/apps/thinghttp/send_request?api_key=ABOIJZXZDK7FTWVC - Covid Günlük Ortalama Vaka(HTML)
-https://api.thingspeak.com/apps/thinghttp/send_request?api_key=53HKF6Q5QT9GSAFW - 177 infections per 100K people reported last 7 days(HTML)
+Source: https://graphics.reuters.com/world-coronavirus-tracker-and-maps/countries-and-territories/turkey/
+XPath: //*[@id="__next"]/div/article/section[2]/div/div[2]/div[2]/div[4]/p[1]/strong
+
+https://api.thingspeak.com/apps/thinghttp/send_request?api_key=53HKF6Q5QT9GSAFW - Infections per 100K people reported last 7 days(HTML)
+Source: https://graphics.reuters.com/world-coronavirus-tracker-and-maps/countries-and-territories/turkey/
+XPath: //*[@id="__next"]/div/article/section[2]/div/div[2]/div[2]/div[2]/p/strong
+
 https://api.thingspeak.com/apps/thinghttp/send_request?api_key=FERNZ2C4JZDC8HV9 - Aşı Bilgileri(JS)
+Source:	https://covid19.saglik.gov.tr/
+XPath: /html/body/form/section[1]/div/div[2]/div[2]/div[3]/script[3]/text()
