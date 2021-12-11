@@ -1,126 +1,168 @@
 import requests
 from bs4 import BeautifulSoup
 
-class covidTurkey():
+
+class covid_turkey:
     def __init__(self):
-        self.doseDatas = {"firstDoseDatas" : {"count" : 0, "percent" : 0},
-        "secondDoseDatas" : {"count" : 0, "percent" : 0},
-        "thirdDoseDatas" : {"count" : 0, "percent" : 0},
-        "fourthDoseDatas" : {"count" : 0, "percent" : 0},
-        "totalDoseCount" : 0,
-        "dailyDoseCount" : 0}
-    
+        self.dose_data = {
+            "first_dose_data": {"count": 0, "percent": 0},
+            "second_dose_data": {"count": 0, "percent": 0},
+            "third_dose_data": {"count": 0, "percent": 0},
+            "fourth_dose_data": {"count": 0, "percent": 0},
+            "total_dose_count": 0,
+            "daily_dose_count": 0,
+            "last_update": "",
+        }
+
     def request(self, url, source="number"):
         response = requests.get(url)
         source_content = response.content.decode("utf-8")
-        if(source == "html"):
+        if source == "html":
             source_content = self.parse_html(source_content)
-        elif(source == "js"):
+        elif source == "js":
             source_content = self.parse_js(source_content)
         return source_content
-            
 
     def parse_html(self, html_source):
-        soup = BeautifulSoup(html_source,"html.parser")
+        soup = BeautifulSoup(html_source, "html.parser")
         return soup.find_all()
 
-    def updateVaccinationDatas(self):
-        data = self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=FERNZ2C4JZDC8HV9", "js")
-        for line in data:      
-            match line:
-                case _ if line.startswith("var doz1asisayisi"):
-                    firstDoseCount = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+    def update_vaccination_data(self):
+        data = self.request(
+            "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=FERNZ2C4JZDC8HV9",
+            "js",
+        )
+        for line in data:
+            if line.startswith("var doz1asisayisi"):
+                first_dose_count = (
+                    line.split("=")[1].replace(";", "").replace("'", "")[1:]
+                )
 
-                case _ if line.startswith("var doz2asisayisi"):
-                    secondDoseCount = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+            if line.startswith("var doz2asisayisi"):
+                second_dose_count = (
+                    line.split("=")[1].replace(";", "").replace("'", "")[1:]
+                )
 
-                case _ if line.startswith("var doz3asisayisi"):
-                    thirdDoseCount = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+            if line.startswith("var doz3asisayisi"):
+                third_dose_count = (
+                    line.split("=")[1].replace(";", "").replace("'", "")[1:]
+                )
 
-                case _ if line.startswith("var doz4asisayisi"):
-                    fourthDoseCount = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+            if line.startswith("var doz4asisayisi"):
+                fourth_dose_count = (
+                    line.split("=")[1].replace(";", "").replace("'", "")[1:]
+                )
 
-                case _ if line.startswith("var toplamasidozusayisi"):
-                    totalDoseCount = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+            if line.startswith("var toplamasidozusayisi"):
+                total_dose_count = (
+                    line.split("=")[1].replace(";", "").replace("'", "")[1:]
+                )
 
-                case _ if line.startswith("var gunluksidozusayisi"):
-                    dailyDoseCount = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+            if line.startswith("var gunluksidozusayisi"):
+                daily_dose_count = (
+                    line.split("=")[1].replace(";", "").replace("'", "")[1:]
+                )
 
-                case _ if line.startswith("var dozturkiyeortalamasi"):
-                    firstDosePercent = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+            if line.startswith("var dozturkiyeortalamasi"):
+                first_dose_percent = (
+                    line.split("=")[1].replace(";", "").replace("'", "")[1:]
+                )
 
-                case _ if line.startswith("var doz2turkiyeortalamasi"):
-                    secondDosePercent = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+            if line.startswith("var doz2turkiyeortalamasi"):
+                second_dose_percent = (
+                    line.split("=")[1].replace(";", "").replace("'", "")[1:]
+                )
 
-                case _ if line.startswith("var doz3turkiyeortalamasi"):
-                    thirdDosePercent = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+            if line.startswith("var doz3turkiyeortalamasi"):
+                third_dose_percent = (
+                    line.split("=")[1].replace(";", "").replace("'", "")[1:]
+                )
 
-                case _ if line.startswith("var doz4turkiyeortalamasi"):
-                    fourthDosePercent = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+            if line.startswith("var doz4turkiyeortalamasi"):
+                fourth_dose_percent = (
+                    line.split("=")[1].replace(";", "").replace("'", "")[1:]
+                )
 
-                # case _ if line.startswith("var asidozuguncellemesaati"):
-                #     line.split("=")[1].replace(";", "").replace("'", "")
+            if line.startswith("var asidozuguncellemesaati"):
+                last_update = line.split("=")[1].replace(";", "").replace("'", "")
 
-
-            
-        self.doseDatas = {"firstDoseDatas" : {"count" : firstDoseCount, "percent" : firstDosePercent},
-        "secondDoseDatas" : {"count" : secondDoseCount, "percent" : secondDosePercent},
-        "thirdDoseDatas" : {"count" : thirdDoseCount, "percent" : thirdDosePercent},
-        "fourthDoseDatas" : {"count" : fourthDoseCount, "percent" : fourthDosePercent},
-        "totalDoseCount" : totalDoseCount,
-        "dailyDoseCount" : dailyDoseCount}
-        
-        
+        self.dose_data = {
+            "first_dose_data": {
+                "count": first_dose_count,
+                "percent": first_dose_percent,
+            },
+            "second_dose_data": {
+                "count": second_dose_count,
+                "percent": second_dose_percent,
+            },
+            "third_dose_data": {
+                "count": third_dose_count,
+                "percent": third_dose_percent,
+            },
+            "fourth_dose_data": {
+                "count": fourth_dose_count,
+                "percent": fourth_dose_percent,
+            },
+            "total_dose_count": total_dose_count,
+            "daily_dose_count": daily_dose_count,
+            "lastUpdate": last_update,
+        }
 
     def parse_js(self, js_source):
-        js_parsed = js_source.split("\n")
-        return js_parsed
+        return js_source.split("\n")
 
+    def get_daily_case(self):
+        return self.request(
+            "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1"
+        )
 
-    def getDailyCase(self):
-        data = self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1")
-        return data
-
-    def getAverageCasesPerDay(self):
-        data = self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=ABOIJZXZDK7FTWVC","html")
+    def get_average_case(self):
+        data = self.request(
+            "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=ABOIJZXZDK7FTWVC",
+            "html",
+        )
         return data[0].text
 
-    def getFirstDoseCount(self):
-        self.updateVaccinationDatas()
-        return self.doseDatas["firstDoseDatas"]["count"]
-    
-    def getFirstDosePercent(self):
-        self.updateVaccinationDatas()
-        return self.doseDatas["firstDoseDatas"]["percent"]
+    def get_first_dose_count(self):
+        self.update_vaccination_data()
+        return self.dose_data["first_dose_data"]["count"]
 
-    def getSecondDoseCount(self):
-        self.updateVaccinationDatas()
-        return self.doseDatas["secondDoseDatas"]["count"]
-    
-    def getSecondDosePercent(self):
-        self.updateVaccinationDatas()
-        return self.doseDatas["secondDoseDatas"]["percent"]
+    def get_first_dose_percent(self):
+        self.update_vaccination_data()
+        return self.dose_data["first_dose_data"]["percent"]
 
-    def getThirdDoseCount(self):
-        self.updateVaccinationDatas()
-        return self.doseDatas["thirdDoseDatas"]["count"]
-    
-    def getThirdDosePercent(self):
-        self.updateVaccinationDatas()
-        return self.doseDatas["thirdDoseDatas"]["percent"]
+    def get_second_dose_count(self):
+        self.update_vaccination_data()
+        return self.dose_data["second_dose_data"]["count"]
 
-    def getFourthDoseCount(self):
-        self.updateVaccinationDatas()
-        return self.doseDatas["fourthDoseDatas"]["count"]
-    
-    def getFourthDosePercent(self):
-        self.updateVaccinationDatas()
-        return self.doseDatas["fourthDoseDatas"]["percent"]
-    
-    def getTotalDoseCount(self):
-        self.updateVaccinationDatas()
-        return self.doseDatas["totalDoseCount"]
+    def get_second_dose_percent(self):
+        self.update_vaccination_data()
+        return self.dose_data["second_dose_data"]["percent"]
 
-    def getDailyDoseCount(self):
-        self.updateVaccinationDatas()
-        return self.doseDatas["dailyDoseCount"]
+    def get_third_dose_count(self):
+        self.update_vaccination_data()
+        return self.dose_data["third_dose_data"]["count"]
+
+    def get_third_dose_percent(self):
+        self.update_vaccination_data()
+        return self.dose_data["third_dose_data"]["percent"]
+
+    def get_fourth_dose_count(self):
+        self.update_vaccination_data()
+        return self.dose_data["fourth_dose_data"]["count"]
+
+    def get_fourth_dose_percent(self):
+        self.update_vaccination_data()
+        return self.dose_data["fourth_dose_data"]["percent"]
+
+    def get_total_dose_count(self):
+        self.update_vaccination_data()
+        return self.dose_data["total_dose_count"]
+
+    def get_daily_dose_count(self):
+        self.update_vaccination_data()
+        return self.dose_data["daily_dose_count"]
+
+    def get_last_update(self):
+        self.update_vaccination_data()
+        return self.dose_data["last_update"]
