@@ -18,6 +18,13 @@ class covid_turkey:
             "asidozuguncellemesaati",
         }
 
+    def parse_js(self, js_source):
+        return js_source.split("\n")
+
+    def parse_html(self, html_source):
+        soup = BeautifulSoup(html_source, "html.parser")
+        return soup.find_all()
+
     def request(self, url, source="number"):
         response = requests.get(url)
         source_content = response.content.decode("utf-8")
@@ -27,25 +34,19 @@ class covid_turkey:
             source_content = self.parse_js(source_content)
         return source_content
 
-    def parse_html(self, html_source):
-        soup = BeautifulSoup(html_source, "html.parser")
-        return soup.find_all()
-
-    def update_vaccination_data(self, data_raw):
+    def update_vaccination_data(self, data_arg):
         latest = self.request(
             "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=FERNZ2C4JZDC8HV9",
             "js",
         )
         self.__init__()
-        if data_raw in self.VALID_ARGS:
-            for line in latest:
-                if line.startswith(f"var {data_raw}"):
-                    data = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+        if data_arg not in self.VALID_ARGS:
+            raise ValueError("Invalid argument")
+        for line in latest:
+            if line.startswith(f"var {data_arg}"):
+                data = line.split("=")[1].replace(";", "").replace("'", "")[1:]
 
-            return data
-
-    def parse_js(self, js_source):
-        return js_source.split("\n")
+        return data
 
     def get_daily_case(self):
         return self.request(
