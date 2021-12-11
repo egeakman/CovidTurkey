@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 class covid_turkey:
     def __init__(self):
-        self.VALID_ARGS = {
+        self.VALID_VAX_ARGS = {
             "doz1asisayisi",
             "doz2asisayisi",
             "doz3asisayisi",
@@ -40,7 +40,7 @@ class covid_turkey:
             "js",
         )
         self.__init__()
-        if data_arg not in self.VALID_ARGS:
+        if data_arg not in self.VALID_VAX_ARGS:
             raise ValueError("Invalid argument")
         for line in latest:
             if line.startswith(f"var {data_arg}"):
@@ -48,18 +48,8 @@ class covid_turkey:
 
         return data
 
-    def get_daily_case(self):
-        return self.request(
-            "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1"
-        )
 
-    def get_average_case(self):
-        data = self.request(
-            "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=ABOIJZXZDK7FTWVC",
-            "html",
-        )
-        return data[0].text
-
+class vaccination(covid_turkey):
     def get_first_dose_count(self):
         return self.update_vaccination_data(data_arg="doz1asisayisi")
 
@@ -92,3 +82,31 @@ class covid_turkey:
 
     def get_last_update(self):
         return self.update_vaccination_data(data_arg="asidozuguncellemesaati")
+
+
+class cases(covid_turkey):
+    def get_daily_case(self):
+        return self.request(
+            "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1"
+        )
+
+    def get_average_case(self):
+        data = self.request(
+            "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=ABOIJZXZDK7FTWVC",
+            "html",
+        )
+        return data[0].text
+
+
+class deaths_and_recovered(covid_turkey):
+    def get_daily_deaths(self):
+        return self.request("coming soon")
+
+    def get_daily_recovered(self):
+        return self.request("coming soon")
+
+    def get_total_deaths(self):
+        return self.request("coming soon")
+
+    def get_total_recovered(self):
+        return self.request("coming soon")
