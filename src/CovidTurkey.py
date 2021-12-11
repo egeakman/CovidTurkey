@@ -22,7 +22,7 @@ class covid_turkey:
         return js_source.split("\n")
 
     def parse_html(self, html_source):
-        soup = BeautifulSoup(html_source, "html.parser")
+        soup = BeautifulSoup(html_source, "lxml")
         return soup.find_all()
 
     def request(self, url, source="number"):
