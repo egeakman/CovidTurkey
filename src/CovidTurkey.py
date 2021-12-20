@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+from datetime import date
 
 class covid_turkey:
     def __init__(self):
@@ -110,3 +110,22 @@ class deaths_and_recovered(covid_turkey):
 
     def get_total_recovered(self):
         return self.request("coming soon")
+
+    def getAverageDeathsPerDay(self):
+        total_deaths = self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE")
+        total_deaths = total_deaths.replace(",","")
+        today = date.today()
+        corona_started = date(2020,3,11)
+        delta = today - corona_started
+        return int(total_deaths)/delta.days
+
+    def getDailyDeath(self):
+        return self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=JN6N1R2OSFU5LGO7")
+
+    def getTotalDeath(self):
+        return self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE")
+
+    def getDailyRecovered(self):
+        return self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=R2550VKLU915XLZ6")
+
+    
