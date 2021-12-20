@@ -56,10 +56,12 @@ class covid_turkey:
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE"
             )
             total_deaths = total_deaths.replace(",", "")
+            total_deaths = int(total_deaths)
             today = date.today()
             corona_started = date(2020, 3, 11)
             delta = today - corona_started
-            return round(float(total_deaths) / float(delta.days))
+            print(type(total_deaths), type(delta.days))
+            return round(total_deaths / delta.days)
 
         def get_daily_death(self):
             return functions.request(

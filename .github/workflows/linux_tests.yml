@@ -1,4 +1,4 @@
-name: "Python Tests"
+name: "Linux Tests"
 
 on:
   push:

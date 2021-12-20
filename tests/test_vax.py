@@ -11,3 +11,6 @@ def test_vax():
     for func in vax.__dir__():
         if func.startswith("get_"):
             print(f"{func}: {getattr(vax, func)()}")
+
+
+test_vax()
