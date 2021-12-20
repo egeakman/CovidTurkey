@@ -1,131 +1,75 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import date
+from src import functions
 
 class covid_turkey:
-    def __init__(self):
-        self.VALID_VAX_ARGS = {
-            "doz1asisayisi",
-            "doz2asisayisi",
-            "doz3asisayisi",
-            "doz4asisayisi",
-            "toplamasidozusayisi",
-            "gunluksidozusayisi",
-            "dozturkiyeortalamasi",
-            "doz2turkiyeortalamasi",
-            "doz3turkiyeortalamasi",
-            "doz4turkiyeortalamasi",
-            "asidozuguncellemesaati",
-        }
+    class vaccination():
+        def get_first_dose_count(self):
+            return functions.update_vaccination_data(data_arg="doz1asisayisi")
 
-    def parse_js(self, js_source):
-        return js_source.split("\n")
+        def get_first_dose_percent(self):
+            return functions.update_vaccination_data(data_arg="dozturkiyeortalamasi")
 
-    def parse_html(self, html_source):
-        soup = BeautifulSoup(html_source, "lxml")
-        return soup.find_all()
+        def get_second_dose_count(self):
+            return functions.update_vaccination_data(data_arg="doz2asisayisi")
 
-    def request(self, url, source="number"):
-        response = requests.get(url)
-        source_content = response.content.decode("utf-8")
-        if source == "html":
-            source_content = self.parse_html(source_content)
-        elif source == "js":
-            source_content = self.parse_js(source_content)
-        return source_content
+        def get_second_dose_percent(self):
+            return functions.update_vaccination_data(data_arg="doz2turkiyeortalamasi")
 
-    def update_vaccination_data(self, data_arg):
-        latest = self.request(
-            "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=FERNZ2C4JZDC8HV9",
-            "js",
-        )
-        self.__init__()
-        if data_arg not in self.VALID_VAX_ARGS:
-            raise ValueError("Invalid argument")
-        for line in latest:
-            if line.startswith(f"var {data_arg}"):
-                data = line.split("=")[1].replace(";", "").replace("'", "")[1:]
+        def get_third_dose_count(self):
+            return functions.update_vaccination_data(data_arg="doz3asisayisi")
 
-        return data
+        def get_third_dose_percent(self):
+            return functions.update_vaccination_data(data_arg="doz3turkiyeortalamasi")
 
+        def get_fourth_dose_count(self):
+            return functions.update_vaccination_data(data_arg="doz4asisayisi")
 
-class vaccination(covid_turkey):
-    def get_first_dose_count(self):
-        return self.update_vaccination_data(data_arg="doz1asisayisi")
+        def get_fourth_dose_percent(self):
+            return functions.update_vaccination_data(data_arg="doz4turkiyeortalamasi")
 
-    def get_first_dose_percent(self):
-        return self.update_vaccination_data(data_arg="dozturkiyeortalamasi")
+        def get_total_dose_count(self):
+            return functions.update_vaccination_data(data_arg="toplamasidozusayisi")
 
-    def get_second_dose_count(self):
-        return self.update_vaccination_data(data_arg="doz2asisayisi")
+        def get_daily_dose_count(self):
+            return functions.update_vaccination_data(data_arg="gunluksidozusayisi")
 
-    def get_second_dose_percent(self):
-        return self.update_vaccination_data(data_arg="doz2turkiyeortalamasi")
+        def get_last_update(self):
+            return functions.update_vaccination_data(data_arg="asidozuguncellemesaati")
 
-    def get_third_dose_count(self):
-        return self.update_vaccination_data(data_arg="doz3asisayisi")
+    class cases():
+        def get_daily_case(self):
+            return functions.request(
+                "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1"
+            )
 
-    def get_third_dose_percent(self):
-        return self.update_vaccination_data(data_arg="doz3turkiyeortalamasi")
+        def get_average_case(self):
+            data = functions.request(
+                "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=ABOIJZXZDK7FTWVC",
+                "html",
+            )
+            return data[0].text
 
-    def get_fourth_dose_count(self):
-        return self.update_vaccination_data(data_arg="doz4asisayisi")
+    class deaths_and_recovered():
+        def get_daily_deaths_per_day(self):
+            total_deaths = functions.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE")
+            total_deaths = total_deaths.replace(",","")
+            today = date.today()
+            corona_started = date(2020,3,11)
+            delta = today - corona_started
+            print(total_deaths)
+            print(delta.days)
+            print(int(total_deaths)/delta.days)
+            return int(total_deaths)/delta.days
 
-    def get_fourth_dose_percent(self):
-        return self.update_vaccination_data(data_arg="doz4turkiyeortalamasi")
+        def get_daily_death(self):
+            return functions.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=JN6N1R2OSFU5LGO7")
 
-    def get_total_dose_count(self):
-        return self.update_vaccination_data(data_arg="toplamasidozusayisi")
+        def get_total_death(self):
+            return functions.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE")
 
-    def get_daily_dose_count(self):
-        return self.update_vaccination_data(data_arg="gunluksidozusayisi")
-
-    def get_last_update(self):
-        return self.update_vaccination_data(data_arg="asidozuguncellemesaati")
-
-
-class cases(covid_turkey):
-    def get_daily_case(self):
-        return self.request(
-            "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1"
-        )
-
-    def get_average_case(self):
-        data = self.request(
-            "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=ABOIJZXZDK7FTWVC",
-            "html",
-        )
-        return data[0].text
-
-
-class deaths_and_recovered(covid_turkey):
-    def get_daily_deaths(self):
-        return self.request("coming soon")
-
-    def get_daily_recovered(self):
-        return self.request("coming soon")
-
-    def get_total_deaths(self):
-        return self.request("coming soon")
-
-    def get_total_recovered(self):
-        return self.request("coming soon")
-
-    def getAverageDeathsPerDay(self):
-        total_deaths = self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE")
-        total_deaths = total_deaths.replace(",","")
-        today = date.today()
-        corona_started = date(2020,3,11)
-        delta = today - corona_started
-        return int(total_deaths)/delta.days
-
-    def getDailyDeath(self):
-        return self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=JN6N1R2OSFU5LGO7")
-
-    def getTotalDeath(self):
-        return self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE")
-
-    def getDailyRecovered(self):
-        return self.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=R2550VKLU915XLZ6")
+        def get_daily_recovered(self):
+            return functions.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=R2550VKLU915XLZ6")
 
     
