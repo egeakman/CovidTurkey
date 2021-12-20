@@ -5,9 +5,9 @@ sys.path.append(str(Path("..").absolute().parent))
 from src import CovidTurkey
 
 
-vaccination = CovidTurkey.vaccination()
-cases = CovidTurkey.cases()
-deaths_and_recovered = CovidTurkey.deaths_and_recovered()
+vaccination = CovidTurkey.covid_turkey.vaccination()
+cases = CovidTurkey.covid_turkey.cases()
+deaths_and_recovered = CovidTurkey.covid_turkey.deaths_and_recovered()
 
 for func in vaccination.__dir__():
     if func.startswith("get_"):
