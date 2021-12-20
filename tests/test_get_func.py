@@ -4,16 +4,18 @@ from pathlib import Path
 sys.path.append(str(Path("..").absolute().parent))
 from src import CovidTurkey
 
-covid = CovidTurkey.covid_turkey()
+vaccination = CovidTurkey.covid_turkey.vaccination()
+cases = CovidTurkey.covid_turkey.cases()
+deaths_and_recovered = CovidTurkey.covid_turkey.deaths_and_recovered()
 
-for func in covid.cases.__dir__():
+for func in vaccination.__dir__():
     if func.startswith("get_"):
-        print(func, getattr(covid.cases, func)())
+        print(func, getattr(vaccination, func)())
 
-for func in covid.vaccination.__dir__():
+for func in cases.__dir__():
     if func.startswith("get_"):
-        print(func, getattr(covid.vaccination, func)())
+        print(func, getattr(cases, func)())
 
-for func in covid.deaths_and_recovered.__dir__():
+for func in deaths_and_recovered.__dir__():
     if func.startswith("get_"):
-        print(func, getattr(covid.deaths_and_recovered, func)())
+        print(func, getattr(deaths_and_recovered, func)())
