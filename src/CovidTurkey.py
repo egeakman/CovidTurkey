@@ -59,7 +59,7 @@ class covid_turkey:
             today = date.today()
             corona_started = date(2020, 3, 11)
             delta = today - corona_started
-            return round(int(total_deaths) / int(delta.days))
+            return round(float(total_deaths) / float(delta.days))
 
         def get_daily_death(self):
             return functions.request(

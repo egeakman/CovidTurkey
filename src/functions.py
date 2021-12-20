@@ -38,7 +38,7 @@ def request(url, source="number"):
 
 def update_vaccination_data(data_arg):
     latest = request(
-        "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=FERNZ2C4JZDC8HV",
+        "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=FERNZ2C4JZDC8HV9",
         "js",
     )
     if data_arg not in VALID_VAX_ARGS:
