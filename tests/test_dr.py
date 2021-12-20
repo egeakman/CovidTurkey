@@ -11,3 +11,6 @@ def test_dr():
     for func in dr.__dir__():
         if func.startswith("get_"):
             print(f"{func}: {getattr(dr, func)()}")
+
+
+test_dr()
