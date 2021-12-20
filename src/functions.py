@@ -1,24 +1,29 @@
 from bs4 import BeautifulSoup
 import requests
+
 VALID_VAX_ARGS = {
-            "doz1asisayisi",
-            "doz2asisayisi",
-            "doz3asisayisi",
-            "doz4asisayisi",
-            "toplamasidozusayisi",
-            "gunluksidozusayisi",
-            "dozturkiyeortalamasi",
-            "doz2turkiyeortalamasi",
-            "doz3turkiyeortalamasi",
-            "doz4turkiyeortalamasi",
-            "asidozuguncellemesaati",
+    "doz1asisayisi",
+    "doz2asisayisi",
+    "doz3asisayisi",
+    "doz4asisayisi",
+    "toplamasidozusayisi",
+    "gunluksidozusayisi",
+    "dozturkiyeortalamasi",
+    "doz2turkiyeortalamasi",
+    "doz3turkiyeortalamasi",
+    "doz4turkiyeortalamasi",
+    "asidozuguncellemesaati",
 }
+
+
 def parse_js(js_source):
     return js_source.split("\n")
+
 
 def parse_html(html_source):
     soup = BeautifulSoup(html_source, "lxml")
     return soup.find_all()
+
 
 def request(url, source="number"):
     response = requests.get(url)
@@ -28,6 +33,7 @@ def request(url, source="number"):
     elif source == "js":
         source_content = parse_js(source_content)
     return source_content
+
 
 def update_vaccination_data(data_arg):
     latest = request(

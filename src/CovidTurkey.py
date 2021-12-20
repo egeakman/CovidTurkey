@@ -1,10 +1,9 @@
-import requests
-from bs4 import BeautifulSoup
 from datetime import date
 from src import functions
 
+
 class covid_turkey:
-    class vaccination():
+    class vaccination:
         def get_first_dose_count(self):
             return functions.update_vaccination_data(data_arg="doz1asisayisi")
 
@@ -38,7 +37,7 @@ class covid_turkey:
         def get_last_update(self):
             return functions.update_vaccination_data(data_arg="asidozuguncellemesaati")
 
-    class cases():
+    class cases:
         def get_daily_case(self):
             return functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1"
@@ -51,25 +50,28 @@ class covid_turkey:
             )
             return data[0].text
 
-    class deaths_and_recovered():
+    class deaths_and_recovered:
         def get_daily_deaths_per_day(self):
-            total_deaths = functions.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE")
-            total_deaths = total_deaths.replace(",","")
+            total_deaths = functions.request(
+                "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE"
+            )
+            total_deaths = total_deaths.replace(",", "")
             today = date.today()
-            corona_started = date(2020,3,11)
+            corona_started = date(2020, 3, 11)
             delta = today - corona_started
-            print(total_deaths)
-            print(delta.days)
-            print(int(total_deaths)/delta.days)
-            return int(total_deaths)/delta.days
+            return int(total_deaths) / int(delta.days)
 
         def get_daily_death(self):
-            return functions.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=JN6N1R2OSFU5LGO7")
+            return functions.request(
+                "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=JN6N1R2OSFU5LGO7"
+            )
 
         def get_total_death(self):
-            return functions.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE")
+            return functions.request(
+                "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE"
+            )
 
         def get_daily_recovered(self):
-            return functions.request("https://api.thingspeak.com/apps/thinghttp/send_request?api_key=R2550VKLU915XLZ6")
-
-    
+            return functions.request(
+                "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=R2550VKLU915XLZ6"
+            )
