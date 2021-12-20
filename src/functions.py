@@ -37,6 +37,7 @@ def request(url, source="number"):
 
 
 def update_vaccination_data(data_arg):
+    data = None
     latest = request(
         "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=FERNZ2C4JZDC8HV9",
         "js",
