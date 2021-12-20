@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
+
 VALID_VAX_ARGS = {
     "doz1asisayisi",
     "doz2asisayisi",

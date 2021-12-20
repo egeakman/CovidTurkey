@@ -1,0 +1,4 @@
+# Remove this when releasing on PyPI
+
+bs4
+requests
