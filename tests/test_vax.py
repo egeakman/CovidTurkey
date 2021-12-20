@@ -6,6 +6,8 @@ from src import CovidTurkey
 
 vax = CovidTurkey.covid_turkey.vaccination()
 
-for func in vax.__dir__():
-    if func.startswith("get_"):
-        print(f"{func}: {getattr(vax, func)()}")
+
+def test_vax():
+    for func in vax.__dir__():
+        if func.startswith("get_"):
+            print(f"{func}: {getattr(vax, func)()}")
