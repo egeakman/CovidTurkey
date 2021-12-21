@@ -15,7 +15,8 @@ VALID_VAX_ARGS = {
     "doz4turkiyeortalamasi",
     "asidozuguncellemesaati",
 }
-
+def remove_dots_and_commas(string):
+    return string.replace(".", "").replace(",", "")
 
 def parse_js(js_source):
     return js_source.split("\n")
@@ -33,6 +34,7 @@ def request(url, source="number"):
         source_content = parse_html(source_content)
     elif source == "js":
         source_content = parse_js(source_content)
+    
     return source_content
 
 
