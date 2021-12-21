@@ -5,87 +5,62 @@ from src import functions
 class covid_turkey:
     class vaccination:
         def get_first_dose_count(self, formatted = False):
-            if formatted:
-                return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="doz1asisayisi"))
-            return functions.update_vaccination_data(data_arg="doz1asisayisi")
+            return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="doz1asisayisi"), formatted)
 
         def get_first_dose_percent(self):
             return functions.update_vaccination_data(data_arg="dozturkiyeortalamasi")
 
         def get_second_dose_count(self, formatted = False):
-            if formatted:
-                return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="doz2asisayisi"))
-            return functions.update_vaccination_data(data_arg="doz2asisayisi")
+            return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="doz2asisayisi"), formatted)
 
         def get_second_dose_percent(self):
             return functions.update_vaccination_data(data_arg="doz2turkiyeortalamasi")
 
         def get_third_dose_count(self, formatted = False):
-            if formatted:
-                return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="doz3asisayisi"))
-            return functions.update_vaccination_data(data_arg="doz3asisayisi")
+            return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="doz3asisayisi"), formatted)
 
         def get_third_dose_percent(self):
             return functions.update_vaccination_data(data_arg="doz3turkiyeortalamasi")
 
         def get_fourth_dose_count(self, formatted = False):
-            if formatted:
-                return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="doz4asisayisi"))
-            return functions.update_vaccination_data(data_arg="doz4asisayisi")
+            return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="doz4asisayisi"), formatted)
 
         def get_fourth_dose_percent(self):
             return functions.update_vaccination_data(data_arg="doz4turkiyeortalamasi")
 
         def get_total_dose_count(self, formatted = False):
-            if formatted:
-                return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="toplamasidozusayisi"))
-            return functions.update_vaccination_data(data_arg="toplamasidozusayisi")
+            return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="toplamasidozusayisi"), formatted)
 
         def get_daily_dose_count(self, formatted = False):
-            if formatted:
-                return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="gunluksidozusayisi"))
-            return functions.update_vaccination_data(data_arg="gunluksidozusayisi")
+            return functions.remove_dots_and_commas(functions.update_vaccination_data(data_arg="gunluksidozusayisi"), formatted)
 
         def get_last_update(self):
             return functions.update_vaccination_data(data_arg="asidozuguncellemesaati")
 
     class cases:
         def get_daily_case(self, formatted = False):
-            if(formatted):
-                return functions.remove_dots_and_commas(functions.request(
-                    "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1"
-                ))
-            return functions.request(
+            return functions.remove_dots_and_commas(functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1"
-            )
+            ), formatted)
 
         def get_average_cases_per_day(self, formatted = False):
             data = functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=ABOIJZXZDK7FTWVC",
                 "html",
             )
-            if formatted:
-                return functions.remove_dots_and_commas(data[0].text)
-            return data[0].text
+            return functions.remove_dots_and_commas(data[0].text, formatted)
+            
 
     class deaths_and_recovered:
         def get_daily_death(self, formatted = False):
-            if formatted:
-                return functions.remove_dots_and_commas(functions.request(
-                    "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=JN6N1R2OSFU5LGO7"
-                ))
-            return functions.request(
+            return functions.remove_dots_and_commas(functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=JN6N1R2OSFU5LGO7"
-            )
+            ), formatted)
 
         def get_total_death(self, formatted = False):
-            if formatted:
-                return functions.remove_dots_and_commas(functions.request(
-                    "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE"
-                ))
-            return functions.request(
+            return functions.remove_dots_and_commas(functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE"
-            )
+            ), formatted)
          
         def get_average_deaths_per_day(self):
             today = date.today()
@@ -99,10 +74,6 @@ class covid_turkey:
             return None
 
         def get_daily_recovered(self, formatted = False):
-            if formatted:
-                return functions.remove_dots_and_commas(functions.request(
-                    "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=R2550VKLU915XLZ6"
-                ))
-            return functions.request(
+            return functions.remove_dots_and_commas(functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=R2550VKLU915XLZ6"
-            )
+            ), formatted)

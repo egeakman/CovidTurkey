@@ -15,8 +15,10 @@ VALID_VAX_ARGS = {
     "doz4turkiyeortalamasi",
     "asidozuguncellemesaati",
 }
-def remove_dots_and_commas(string):
-    return string.replace(".", "").replace(",", "")
+def remove_dots_and_commas(string, formatted = False):
+    if formatted:
+        return string.replace(".", "").replace(",", "")
+    return string
 
 def parse_js(js_source):
     return js_source.split("\n")
