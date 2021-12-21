@@ -50,6 +50,6 @@ jobs:
       - name: CHCP 65001
         run: chcp 65001
 
-        # Run the tests. I'm using pytest and the file is in the tests directory.
+        # Run the tests.
       - name: Run tests
-        run: pytest -s tests/
+        run: pytest tests/
