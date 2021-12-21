@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+from cachetools import cached, TTLCache
 
 
 VALID_VAX_ARGS = {
@@ -48,6 +49,7 @@ def request(url, source="number", formatted=False, index_for_list=0):
     return source_content
 
 
+@cached(cache=TTLCache(maxsize=1024, ttl=6000))
 def update_vaccination_data(data_arg, formatted=False, index_for_list=0):
     data = None
     latest = request(
