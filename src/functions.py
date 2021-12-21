@@ -21,7 +21,8 @@ VALID_VAX_ARGS = {
 def remove_dots_and_commas(string, index):
     if not isinstance(string, str):
         if isinstance(string, list):
-            string = str(string[index].text)
+            string = string[index].text
+        string = str(string)
     return string.replace(".", "").replace(",", "")
 
 
