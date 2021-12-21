@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from datetime import date
 from src import functions
 from cachetools import cached, TTLCache

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from bs4 import BeautifulSoup
 import requests
 from cachetools import cached, TTLCache
@@ -23,7 +25,6 @@ def remove_dots_and_commas(string, index):
         if isinstance(string, list):
             string = string[index].text
         string = str(string)
-        return string.replace(".", "").replace(",", "")
     return string.replace(".", "").replace(",", "")
 
 
