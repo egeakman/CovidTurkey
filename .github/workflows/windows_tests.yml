@@ -48,8 +48,8 @@ jobs:
         
         # CHCP 65001
       - name: CHCP 65001
-      - run: chcp 65001
-      
+        run: chcp 65001
+
         # Run the tests. I'm using pytest and the file is in the tests directory.
       - name: Run tests
         run: pytest -s tests/
