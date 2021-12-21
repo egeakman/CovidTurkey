@@ -24,5 +24,5 @@ def test_vax_unformatted():
             print(f"{func} (Unformatted): {getattr(vax, func)()}")
 
 
-test_vax_formatted()
+# test_vax_formatted()
 test_vax_unformatted()
