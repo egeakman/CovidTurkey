@@ -1,5 +1,6 @@
 from datetime import date
 from src import functions
+from cachetools import cached, TTLCache
 
 
 class covid_turkey:
@@ -50,12 +51,14 @@ class covid_turkey:
             return functions.update_vaccination_data(data_arg="asidozuguncellemesaati")
 
     class cases:
+        @cached(cache=TTLCache(maxsize=1024, ttl=6000))
         def get_daily_case(self, formatted=False):
             return functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1",
                 formatted=formatted,
             )
 
+        @cached(cache=TTLCache(maxsize=1024, ttl=6000))
         def get_average_cases_per_day(self, formatted=False):
             data = functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=ABOIJZXZDK7FTWVC",
@@ -68,18 +71,21 @@ class covid_turkey:
             return data[0].text
 
     class deaths_and_recovered:
+        @cached(cache=TTLCache(maxsize=1024, ttl=6000))
         def get_daily_death(self, formatted=False):
             return functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=JN6N1R2OSFU5LGO7",
                 formatted=formatted,
             )
 
+        @cached(cache=TTLCache(maxsize=1024, ttl=6000))
         def get_total_death(self, formatted=False):
             return functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE",
                 formatted=formatted,
             )
 
+        @cached(cache=TTLCache(maxsize=1024, ttl=6000))
         def get_average_deaths_per_day(self):
             today = date.today()
             corona_started = date(2020, 3, 11)
@@ -92,6 +98,7 @@ class covid_turkey:
                 return round(total_deaths / delta.days)
             return None
 
+        @cached(cache=TTLCache(maxsize=1024, ttl=6000))
         def get_daily_recovered(self, formatted=False):
             return functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=R2550VKLU915XLZ6",
