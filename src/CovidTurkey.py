@@ -43,7 +43,7 @@ class covid_turkey:
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=5T7CBZG02TEYNMS1"
             )
 
-        def get_average_case(self):
+        def get_average_cases_per_day(self):
             data = functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=ABOIJZXZDK7FTWVC",
                 "html",
@@ -51,16 +51,6 @@ class covid_turkey:
             return data[0].text
 
     class deaths_and_recovered:
-        def get_daily_deaths_per_day(self):
-            total_deaths = functions.request(
-                "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE"
-            )
-            total_deaths = total_deaths.replace(",", "")
-            today = date.today()
-            corona_started = date(2020, 3, 11)
-            delta = today - corona_started
-            return int(total_deaths) / int(delta.days)
-
         def get_daily_death(self):
             return functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=JN6N1R2OSFU5LGO7"
@@ -70,6 +60,17 @@ class covid_turkey:
             return functions.request(
                 "https://api.thingspeak.com/apps/thinghttp/send_request?api_key=VJR862TXLHUT52JE"
             )
+
+        def get_average_deaths_per_day(self):
+            today = date.today()
+            corona_started = date(2020, 3, 11)
+            delta = today - corona_started
+            total_deaths = covid_turkey.deaths_and_recovered.get_total_death(self)
+            total_deaths = total_deaths.replace(",", "")
+            if total_deaths.isdigit() is True:
+                total_deaths = int(total_deaths)
+                return round(total_deaths / delta.days)
+            return None
 
         def get_daily_recovered(self):
             return functions.request(
